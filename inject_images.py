@@ -180,6 +180,13 @@ SOURCES_CSS = """
     font-family:var(--mono);font-size:11px;
     text-transform:uppercase;letter-spacing:0.06em;
     color:var(--accent-2);margin-right:4px;flex-shrink:0;
+    align-self:flex-start;padding-top:3px;
+  }
+  .bm-line{
+    display:flex;flex-wrap:wrap;gap:5px 6px;flex:1;
+  }
+  .bm-line+.bm-line{
+    margin-top:0;flex-basis:100%;
   }
 """
 
@@ -187,7 +194,7 @@ THUMB_CSS = """
   /* === injected: thumbnail strip === */
   .thumbstrip{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(55px,1fr));
     gap:4px;
     margin-top:-2px;
     background:var(--paper-2);
@@ -221,13 +228,18 @@ THUMB_CSS = """
 
 
 def inject_benchmarks_row(html: str, all_datasets: list[str]) -> str:
-    """Inject a benchmarks row into the masthead, before </header>."""
+    """Inject (or replace) a two-line benchmarks row in the masthead."""
     if "benchmarks-row" in html:
-        return html
-    chips = "".join(f'<span class="src-chip">{d}</span>' for d in all_datasets)
+        html = re.sub(r'<div class="benchmarks-row">.*?</div>\s*\n', '', html, count=1, flags=re.DOTALL)
+    mid = len(all_datasets) // 2
+    row1 = "".join(f'<span class="src-chip">{d}</span>' for d in all_datasets[:mid])
+    row2 = "".join(f'<span class="src-chip">{d}</span>' for d in all_datasets[mid:])
     block = (
         f'\n  <div class="benchmarks-row">'
-        f'<strong>Benchmarks</strong>{chips}</div>\n'
+        f'<strong>Benchmarks</strong>'
+        f'<span class="bm-line">{row1}</span>'
+        f'<span class="bm-line">{row2}</span>'
+        f'</div>\n'
     )
     return html.replace("</header>", block + "</header>", 1)
 
@@ -244,13 +256,28 @@ def inject(
     the .st-head <div> in every <article class="stcard ..."> whose body contains
     'id NNNN' for one of our target IDs. Optionally also injects a dataset
     source list before each </article>."""
-    # Inject CSS once, right before closing </style>
-    if "/* === injected: thumbnail strip === */" not in html:
+    # Inject/replace CSS blocks (always replace so changes in this script take effect)
+    thumb_marker = "/* === injected: thumbnail strip === */"
+    src_marker = "/* === injected: dataset sources === */"
+    if thumb_marker in html:
+        html = re.sub(
+            re.escape(thumb_marker) + r".*?" + re.escape(THUMB_CSS.strip().splitlines()[-1]),
+            THUMB_CSS.strip(),
+            html, count=1, flags=re.DOTALL,
+        )
+    else:
         html = html.replace("</style>", THUMB_CSS + "</style>", 1)
-    if dataset_map is not None and "/* === injected: dataset sources === */" not in html:
-        html = html.replace("</style>", SOURCES_CSS + "</style>", 1)
+    if dataset_map is not None:
+        if src_marker in html:
+            html = re.sub(
+                re.escape(src_marker) + r".*?" + re.escape(SOURCES_CSS.strip().splitlines()[-1]),
+                SOURCES_CSS.strip(),
+                html, count=1, flags=re.DOTALL,
+            )
+        else:
+            html = html.replace("</style>", SOURCES_CSS + "</style>", 1)
 
-    # Inject benchmarks row into masthead
+    # Inject/replace benchmarks row in masthead
     if all_datasets:
         html = inject_benchmarks_row(html, all_datasets)
 

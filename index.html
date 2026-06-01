@@ -353,12 +353,35 @@
   /* === injected: thumbnail strip === */
   .thumbstrip{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(55px,1fr));
     gap:4px;
     margin-top:-2px;
     background:var(--paper-2);
     padding:6px;
     border:1px solid rgba(0,0,0,0.12);
+  }
+  .thumbstrip img{
+    width:100%;
+    aspect-ratio:auto;
+    object-fit:contain;
+    background:var(--paper-2);
+    display:block;
+    border:1px solid rgba(0,0,0,0.08);
+  }
+  .thumbstrip[data-n="1"]{grid-template-columns:1fr;}
+  .thumbstrip[data-n="1"] img{aspect-ratio:auto;}
+  .thumbstrip[data-n="2"]{grid-template-columns:1fr 1fr;}
+  .thumbstrip[data-n="2"] img{aspect-ratio:auto;}
+  .thumbstrip[data-n="4"]{grid-template-columns:repeat(4,1fr);}
+  .thumbstrip[data-n="4"] img{aspect-ratio:auto;}
+  .thumb-note{
+    font-family:var(--mono);
+    font-size:9px;
+    color:var(--muted);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-top:-4px;
+    padding-left:2px;
   }
   .thumbstrip img{
     width:100%;
@@ -401,6 +424,36 @@
     border:1px solid rgba(0,0,0,0.15);
     color:var(--ink);white-space:nowrap;
   }
+  .benchmarks-row{
+    display:flex;flex-wrap:wrap;gap:6px 8px;
+    margin-top:16px;padding-top:16px;
+    border-top:1px solid rgba(0,0,0,0.12);
+    align-items:center;
+  }
+  .benchmarks-row strong{
+    font-family:var(--mono);font-size:11px;
+    text-transform:uppercase;letter-spacing:0.06em;
+    color:var(--accent-2);margin-right:4px;flex-shrink:0;
+    align-self:flex-start;padding-top:3px;
+  }
+  .bm-line{
+    display:flex;flex-wrap:wrap;gap:5px 6px;flex:1;
+  }
+  .bm-line+.bm-line{
+    margin-top:0;flex-basis:100%;
+  }
+  .src-lbl{
+    font-family:var(--mono);font-size:9px;
+    text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--muted);margin-right:2px;flex-shrink:0;
+  }
+  .src-chip{
+    font-family:var(--mono);font-size:10px;
+    padding:2px 7px;
+    background:var(--paper-3);
+    border:1px solid rgba(0,0,0,0.15);
+    color:var(--ink);white-space:nowrap;
+  }
 </style>
 </head>
 <body>
@@ -422,7 +475,8 @@
     <div><strong>MODALITIES</strong> img 2,493 · multi-img 1,339 · video 1,193</div>
   </div>
 
-  <div class="benchmarks-row"><strong>Benchmarks</strong><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMIU</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">QSpatialBench-Plus</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">RoboSpatial-Home</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialEval</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">VLM4D</span><span class="src-chip">realworldqa</span><span class="src-chip">spatialsense</span><span class="src-chip">vsi-bench</span><span class="src-chip">vsr</span></div>
+  
+  <div class="benchmarks-row"><strong>Benchmarks</strong><span class="bm-line"><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMIU</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">QSpatialBench-Plus</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">RoboSpatial-Home</span><span class="src-chip">SITE-Bench</span></span><span class="bm-line"><span class="src-chip">SPAR-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialEval</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">VLM4D</span><span class="src-chip">realworldqa</span><span class="src-chip">spatialsense</span><span class="src-chip">vsi-bench</span><span class="src-chip">vsr</span></span></div>
 </header>
 
 <!-- ========== TOC ========== -->
@@ -531,6 +585,10 @@ Question: {question}</div>
           <img src="extracted_samples/SITE-Bench/data/LogicVista/data/images/v1_173.png" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SITE-Bench/data/LogicVista/data/images/v1_173.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qm">multi-choice</span>
           <span class="t mod">single-image</span>
@@ -551,6 +609,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
       </article>
 
       <article class="stcard mc">
@@ -558,6 +618,10 @@ Question: {question}</div>
           <div class="st-subtask">Maze Navigation</div>
           <div class="st-id">id 2381</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SITE-Bench/data/SpatialEval/images/mazenav.vqa.204.2.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SITE-Bench/data/SpatialEval/images/mazenav.vqa.204.2.png" alt="frame 0" loading="lazy">
         </div>
@@ -588,6 +652,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">SpatialEval</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">SpatialEval</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">SpatialEval</span></div>
       </article>
 
       <article class="stcard mc">
@@ -595,6 +661,10 @@ Question: {question}</div>
           <div class="st-subtask">Multi-view Projection</div>
           <div class="st-id">id 2372</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SITE-Bench/data/LogicVista/data/images/v1_396.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SITE-Bench/data/LogicVista/data/images/v1_396.png" alt="frame 0" loading="lazy">
         </div>
@@ -626,6 +696,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">Spatial-Visualization</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">Spatial-Visualization</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">Spatial-Visualization</span></div>
       </article>
 
       <article class="stcard mc">
@@ -633,6 +705,10 @@ Question: {question}</div>
           <div class="st-subtask">Space Folding</div>
           <div class="st-id">id 3106</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/Spatial-Visualization/MentalFolding/CubeUnfolding/Level0/24.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/Spatial-Visualization/MentalFolding/CubeUnfolding/Level0/24.png" alt="frame 0" loading="lazy">
         </div>
@@ -665,6 +741,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SRBench</span><span class="src-chip">Spatial-Visualization</span></div>
       </article>
 
       <article class="stcard mc">
@@ -672,6 +750,10 @@ Question: {question}</div>
           <div class="st-subtask">Spatial Map</div>
           <div class="st-id">id 3372</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SpatialEval/images_png/vqa_test-00000-of-00002_spatialmap.vqa.2410.2_0.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SpatialEval/images_png/vqa_test-00000-of-00002_spatialmap.vqa.2410.2_0.png" alt="frame 0" loading="lazy">
         </div>
@@ -700,6 +782,8 @@ Question: {question}</div>
         </ul>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">D</span></div>
         <div class="st-path"><span class="lbl">img</span>./SpatialEval/images_png/vqa_test-00000-of-00002_spatialmap.vqa.2410.2_0.png</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialEval</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialEval</span></div>
       
@@ -739,6 +823,10 @@ Question: {question}</div>
           <img src="extracted_samples/MIRAGE/image_dataset/image_1212.jpg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/MIRAGE/image_dataset/image_1212.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qo">open-ended</span>
           <span class="t mod">single-image</span>
@@ -753,6 +841,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialEval</span><span class="src-chip">realworldqa</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialEval</span><span class="src-chip">realworldqa</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">Spatial-Visualization</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialEval</span><span class="src-chip">realworldqa</span></div>
       </article>
 
       <article class="stcard mc">
@@ -760,6 +850,10 @@ Question: {question}</div>
           <div class="st-subtask">Count with Relation</div>
           <div class="st-id">id 2336</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SITE-Bench/data/IconQA/iconqa_data/iconqa/val/fill_in_blank/83151/image.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SITE-Bench/data/IconQA/iconqa_data/iconqa/val/fill_in_blank/83151/image.png" alt="frame 0" loading="lazy">
         </div>
@@ -792,6 +886,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MIRAGE</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span></div>
       </article>
 
       <article class="stcard mc">
@@ -799,6 +895,14 @@ Question: {question}</div>
           <div class="st-subtask">Video Counting</div>
           <div class="st-id">id 3717</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_13280/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -842,6 +946,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
     </div>
@@ -877,6 +983,10 @@ Question: {question}</div>
           <img src="extracted_samples/repurposed_data/absolute_depth_val/000101.jpg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/absolute_depth_val/000101.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qo">open-ended</span>
           <span class="t mod">single-image</span>
@@ -891,6 +1001,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard mc">
@@ -898,6 +1010,10 @@ Question: {question}</div>
           <div class="st-subtask">Relative Depth</div>
           <div class="st-id">id 4664</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/relative_depth_val/000010.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/repurposed_data/relative_depth_val/000010.jpg" alt="frame 0" loading="lazy">
         </div>
@@ -925,6 +1041,8 @@ Question: {question}</div>
         </ul>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">(B)</span></div>
         <div class="st-path"><span class="lbl">img</span>./repurposed_data/relative_depth_val/000010.jpg</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
@@ -964,6 +1082,10 @@ Question: {question}</div>
           <img src="extracted_samples/Q-Spatial-Bench/QSpatial_plus/images/059.jpeg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/Q-Spatial-Bench/QSpatial_plus/images/059.jpeg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qo">open-ended (metric)</span>
           <span class="t mod">single-image</span>
@@ -978,6 +1100,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-Plus</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-Plus</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-Plus</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
       <article class="stcard mc">
@@ -985,6 +1109,14 @@ Question: {question}</div>
           <div class="st-subtask">Relative Distance</div>
           <div class="st-id">id 2416</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/arkitscenes/42899461/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -1029,6 +1161,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">CVBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">CVBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">CVBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
     </div>
@@ -1064,6 +1198,10 @@ Question: {question}</div>
           <img src="extracted_samples/repurposed_data/object_size_val/000037.jpg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/object_size_val/000037.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qo">open-ended</span>
           <span class="t mod">single-image</span>
@@ -1077,6 +1215,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">QSpatialBench-ScanNet</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1084,6 +1224,10 @@ Question: {question}</div>
           <div class="st-subtask">Relative Size</div>
           <div class="st-id">id 2330</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SITE-Bench/data/MMVet/mm-vet/images/v1_128.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SITE-Bench/data/MMVet/mm-vet/images/v1_128.jpg" alt="frame 0" loading="lazy">
         </div>
@@ -1113,6 +1257,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">realworldqa</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">realworldqa</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span><span class="src-chip">realworldqa</span></div>
       </article>
 
       <article class="stcard j">
@@ -1120,6 +1266,10 @@ Question: {question}</div>
           <div class="st-subtask">Size Compatibility</div>
           <div class="st-id">id 2296</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/RoboSpatial-Home/images_png/compatibility-00000-of-00001_80_img.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/RoboSpatial-Home/images_png/compatibility-00000-of-00001_80_img.png" alt="frame 0" loading="lazy">
         </div>
@@ -1142,6 +1292,8 @@ Question: {question}</div>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">Yes</span></div>
         <div class="st-extra">extra_info includes paired depth image</div>
         <div class="st-path"><span class="lbl">img</span>./RoboSpatial-Home/images_png/compatibility-00000-of-00001_80_img.png</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">RoboSpatial-Home</span><span class="src-chip">SITE-Bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">RoboSpatial-Home</span><span class="src-chip">SITE-Bench</span></div>
       
@@ -1193,6 +1345,14 @@ Question: {question}</div>
         </div>
         <div class="thumb-note">showing 4 of 32 sampled frames</div>
 
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/VLM4D/32_frames/videos_synthetic/synth_162/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/VLM4D/32_frames/videos_synthetic/synth_162/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/VLM4D/32_frames/videos_synthetic/synth_162/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/VLM4D/32_frames/videos_synthetic/synth_162/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="st-tags">
           <span class="t qm">multi-choice</span>
           <span class="t mod">video · 32 frames</span>
@@ -1212,6 +1372,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">realworldqa</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">realworldqa</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">VLM4D</span><span class="src-chip">realworldqa</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1219,6 +1381,11 @@ Question: {question}</div>
           <div class="st-subtask">Point Tracking</div>
           <div class="st-id">id 2375</div>
         </div>
+        <div class="thumbstrip" data-n="2">
+          <img src="extracted_samples/SITE-Bench/data/MMIU/visual_correspondence_blink/visual_correspondence_blink_90_0.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/data/MMIU/visual_correspondence_blink/visual_correspondence_blink_90_1.jpg" alt="frame 1" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="2">
           <img src="extracted_samples/SITE-Bench/data/MMIU/visual_correspondence_blink/visual_correspondence_blink_90_0.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/SITE-Bench/data/MMIU/visual_correspondence_blink/visual_correspondence_blink_90_1.jpg" alt="frame 1" loading="lazy">
@@ -1253,6 +1420,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1260,6 +1429,10 @@ Question: {question}</div>
           <div class="st-subtask">Velocity Estimation</div>
           <div class="st-id">id 3638</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Dynamic_Reasoning/35.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Dynamic_Reasoning/35.png" alt="frame 0" loading="lazy">
         </div>
@@ -1287,6 +1460,8 @@ Question: {question}</div>
         </ul>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">C</span></div>
         <div class="st-path"><span class="lbl">img</span>./OmniSpatial/OmniSpatial_full_8.4K/Dynamic_Reasoning/35.png</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">STI-Bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">STI-Bench</span></div>
       
@@ -1326,6 +1501,10 @@ Question: {question}</div>
           <img src="extracted_samples/repurposed_data/external/PointOdyssey/val/scene_d78_3rd/rgbs/rgb_03762.jpg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/external/PointOdyssey/val/scene_d78_3rd/rgbs/rgb_03762.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qm">multi-choice</span>
           <span class="t mod">single-image</span>
@@ -1345,6 +1524,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1352,6 +1533,14 @@ Question: {question}</div>
           <div class="st-subtask">Camera Extrinsics <span style="font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:400;">· Camera task</span></div>
           <div class="st-id">id 3530</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/STI-Bench/32_frames/000011/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000011/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000011/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000011/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/STI-Bench/32_frames/000011/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/STI-Bench/32_frames/000011/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -1397,6 +1586,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1404,6 +1595,14 @@ Question: {question}</div>
           <div class="st-subtask">Camera Extrinsics <span style="font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:400;">· Motion (Absolute)</span></div>
           <div class="st-id">id 3539</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/STI-Bench/32_frames/000113/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000113/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000113/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/STI-Bench/32_frames/000113/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/STI-Bench/32_frames/000113/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/STI-Bench/32_frames/000113/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -1449,6 +1648,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard j">
@@ -1456,6 +1657,11 @@ Question: {question}</div>
           <div class="st-subtask">Camera Motion</div>
           <div class="st-id">id 4211</div>
         </div>
+        <div class="thumbstrip" data-n="2">
+          <img src="extracted_samples/repurposed_data/external/CA_val/42898570/752854364989625.wide/image.png" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/repurposed_data/external/CA_val/42898570/752854464948791.wide/image.png" alt="frame 1" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="2">
           <img src="extracted_samples/repurposed_data/external/CA_val/42898570/752854364989625.wide/image.png" alt="frame 0" loading="lazy">
           <img src="extracted_samples/repurposed_data/external/CA_val/42898570/752854464948791.wide/image.png" alt="frame 1" loading="lazy">
@@ -1484,6 +1690,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1491,6 +1699,11 @@ Question: {question}</div>
           <div class="st-subtask">Homography Matrix</div>
           <div class="st-id">id 4284</div>
         </div>
+        <div class="thumbstrip" data-n="2">
+          <img src="extracted_samples/repurposed_data/external/Omni3D/datasets/objectron/train/laptop_batch_38_8_0000100.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/repurposed_data/homography/69236_1762721705269322_transformed.jpg" alt="frame 1" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="2">
           <img src="extracted_samples/repurposed_data/external/Omni3D/datasets/objectron/train/laptop_batch_38_8_0000100.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/repurposed_data/homography/69236_1762721705269322_transformed.jpg" alt="frame 1" loading="lazy">
@@ -1522,6 +1735,8 @@ Question: {question}</div>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">(D)</span></div>
         <div class="st-extra">Each option is a 3×3 homography (9 floats) — truncated here, see ndjson for full precision.</div>
         <div class="st-path"><span class="lbl">orig</span>./repurposed_data/external/Omni3D/datasets/objectron/train/laptop_batch_38_8_0000100.jpg<br><span class="lbl">xformed</span>./repurposed_data/homography/69236_1762721705269322_transformed.jpg</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
@@ -1573,6 +1788,14 @@ Question: {question}</div>
         </div>
         <div class="thumb-note">showing 4 of 32 sampled frames</div>
 
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/scannet/scene0645_00/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/scannet/scene0645_00/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/scannet/scene0645_00/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/VSI-Bench/scannet/scene0645_00/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="st-tags">
           <span class="t qm">multi-choice</span>
           <span class="t mod">video · 32 frames</span>
@@ -1592,6 +1815,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1599,6 +1824,14 @@ Question: {question}</div>
           <div class="st-subtask">Navigation Route</div>
           <div class="st-id">id 3814</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/SITE-Bench/32_frames/MVBench/videos/clevrer/video_validation/video_11669/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -1643,6 +1876,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">vsi-bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">vsi-bench</span></div>
       </article>
 
     </div>
@@ -1678,6 +1913,10 @@ Question: {question}</div>
           <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Perspective_Taking/1204.png" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Perspective_Taking/1204.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qm">multi-choice</span>
           <span class="t mod">single-image</span>
@@ -1697,6 +1936,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SRBench</span><span class="src-chip">STI-Bench</span><span class="src-chip">realworldqa</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SRBench</span><span class="src-chip">STI-Bench</span><span class="src-chip">realworldqa</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SRBench</span><span class="src-chip">STI-Bench</span><span class="src-chip">realworldqa</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1704,6 +1945,10 @@ Question: {question}</div>
           <div class="st-subtask">View Perspective</div>
           <div class="st-id">id 2185</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Perspective_Taking/1749.png" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/OmniSpatial/OmniSpatial_full_8.4K/Perspective_Taking/1749.png" alt="frame 0" loading="lazy">
         </div>
@@ -1731,6 +1976,8 @@ Question: {question}</div>
         </ul>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">C</span></div>
         <div class="st-path"><span class="lbl">img</span>./OmniSpatial/OmniSpatial_full_8.4K/Perspective_Taking/1749.png</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">vsi-bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">MMSI-Bench</span><span class="src-chip">MMVP</span><span class="src-chip">OmniSpatial</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SRBench</span><span class="src-chip">vsi-bench</span></div>
       
@@ -1770,6 +2017,10 @@ Question: {question}</div>
           <img src="extracted_samples/repurposed_data/object_existence_val/000005.jpg" alt="frame 0" loading="lazy">
         </div>
 
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/object_existence_val/000005.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="st-tags">
           <span class="t qj">judgement</span>
           <span class="t mod">single-image</span>
@@ -1783,6 +2034,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">MMVP</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SpaCE-10</span><span class="src-chip">SpatialBench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       </article>
 
       <article class="stcard j">
@@ -1790,6 +2043,10 @@ Question: {question}</div>
           <div class="st-subtask">Spatial Position</div>
           <div class="st-id">id 1147</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/SpatialSense/images/flickr/14226645297_7c408131b9.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/SpatialSense/images/flickr/14226645297_7c408131b9.jpg" alt="frame 0" loading="lazy">
         </div>
@@ -1816,6 +2073,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">spatialsense</span><span class="src-chip">vsr</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">spatialsense</span><span class="src-chip">vsr</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">3DSRBench</span><span class="src-chip">BLINK</span><span class="src-chip">CVBench</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">spatialsense</span><span class="src-chip">vsr</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1823,6 +2082,14 @@ Question: {question}</div>
           <div class="st-subtask">2D Localization</div>
           <div class="st-id">id 3738</div>
         </div>
+        <div class="thumbstrip" data-n="4">
+          <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_00.jpg" alt="frame 0" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_10.jpg" alt="frame 10" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_21.jpg" alt="frame 21" loading="lazy">
+          <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_31.jpg" alt="frame 31" loading="lazy">
+        </div>
+        <div class="thumb-note">showing 4 of 32 sampled frames</div>
+
         <div class="thumbstrip" data-n="4">
           <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_00.jpg" alt="frame 0" loading="lazy">
           <img src="extracted_samples/SITE-Bench/32_frames/ActivityNet/videos/vBaiedxy1Uw/frame_10.jpg" alt="frame 10" loading="lazy">
@@ -1866,6 +2133,8 @@ Question: {question}</div>
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span></div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">BLINK</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span></div>
       </article>
 
       <article class="stcard mc">
@@ -1873,6 +2142,10 @@ Question: {question}</div>
           <div class="st-subtask">3D Object Detection</div>
           <div class="st-id">id 4912</div>
         </div>
+        <div class="thumbstrip" data-n="1">
+          <img src="extracted_samples/repurposed_data/threed_object_detection_val/000021.jpg" alt="frame 0" loading="lazy">
+        </div>
+
         <div class="thumbstrip" data-n="1">
           <img src="extracted_samples/repurposed_data/threed_object_detection_val/000021.jpg" alt="frame 0" loading="lazy">
         </div>
@@ -1901,6 +2174,8 @@ Question: {question}</div>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">(B)</span></div>
         <div class="st-extra">Each option is an 8-vertex 3D bounding box (8 × 3 floats) — truncated, see ndjson for full coords.</div>
         <div class="st-path"><span class="lbl">img</span>./repurposed_data/threed_object_detection_val/000021.jpg</div>
+      
+        <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
         <div class="st-sources"><span class="src-lbl">datasets</span><span class="src-chip">MMIU</span><span class="src-chip">SITE-Bench</span><span class="src-chip">SPAR-Bench</span><span class="src-chip">STI-Bench</span><span class="src-chip">SpatialScore-Repurpose</span></div>
       
