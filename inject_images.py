@@ -50,7 +50,7 @@ TARGET_IDS: list[int] = [
     2374, 2381, 2372, 3106, 3372,
     2072, 2336, 3717,
     3972, 4664,
-    1017, 2344,
+    1017, 2416,
     4543, 2330, 2296,
     3911, 2375, 3638,
     4134, 3530, 3539, 4211, 4284,
@@ -83,6 +83,22 @@ def load_records(ndjson_path: Path) -> dict[int, dict]:
             if d.get("id") in wanted:
                 out[d["id"]] = d
     return out
+
+
+def build_subtask_dataset_map(ndjson_path: Path) -> dict[str, list[str]]:
+    """Return a mapping of sub_task -> sorted list of all source datasets."""
+    result: dict[str, set] = {}
+    with ndjson_path.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            sub = d.get("sub_task", "")
+            src = d.get("source_dataset", "")
+            if sub and src:
+                result.setdefault(sub, set()).add(src)
+    return {k: sorted(v) for k, v in result.items()}
 
 
 def normalize(p: str) -> str:
@@ -121,6 +137,26 @@ def build_thumbstrip(record: dict, prefix: str, max_frames: int) -> str:
     )
 
 
+SOURCES_CSS = """
+  /* === injected: dataset sources === */
+  .st-sources{
+    display:flex;flex-wrap:wrap;gap:4px 6px;
+    margin-top:8px;align-items:center;
+  }
+  .src-lbl{
+    font-family:var(--mono);font-size:9px;
+    text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--muted);margin-right:2px;flex-shrink:0;
+  }
+  .src-chip{
+    font-family:var(--mono);font-size:10px;
+    padding:2px 7px;
+    background:var(--paper-3);
+    border:1px solid rgba(0,0,0,0.15);
+    color:var(--ink);white-space:nowrap;
+  }
+"""
+
 THUMB_CSS = """
   /* === injected: thumbnail strip === */
   .thumbstrip{
@@ -156,13 +192,22 @@ THUMB_CSS = """
 """
 
 
-def inject(html: str, records: dict[int, dict], prefix: str, max_frames: int) -> tuple[str, int]:
+def inject(
+    html: str,
+    records: dict[int, dict],
+    prefix: str,
+    max_frames: int,
+    dataset_map: dict[str, list[str]] | None = None,
+) -> tuple[str, int]:
     """Return (new_html, n_injected). Inserts a .thumbstrip block right after
     the .st-head <div> in every <article class="stcard ..."> whose body contains
-    'id NNNN' for one of our target IDs."""
+    'id NNNN' for one of our target IDs. Optionally also injects a dataset
+    source list before each </article>."""
     # Inject CSS once, right before closing </style>
     if "/* === injected: thumbnail strip === */" not in html:
         html = html.replace("</style>", THUMB_CSS + "</style>", 1)
+    if dataset_map is not None and "/* === injected: dataset sources === */" not in html:
+        html = html.replace("</style>", SOURCES_CSS + "</style>", 1)
 
     n = 0
     for sid, rec in records.items():
@@ -185,6 +230,24 @@ def inject(html: str, records: dict[int, dict], prefix: str, max_frames: int) ->
             continue
         html = new_html
         n += 1
+
+        # Inject dataset source list before </article>
+        if dataset_map is not None:
+            sub_task = rec.get("sub_task", "")
+            datasets = dataset_map.get(sub_task, [])
+            if datasets:
+                chips = "".join(f'<span class="src-chip">{d}</span>' for d in datasets)
+                sources_block = (
+                    f'\n        <div class="st-sources">'
+                    f'<span class="src-lbl">datasets</span>{chips}</div>\n      '
+                )
+                art_pattern = re.compile(
+                    r'(<article class="stcard[^"]*">.*?<div class="st-id">id\s+'
+                    + str(sid)
+                    + r'</div>.*?)(</article>)',
+                    flags=re.DOTALL,
+                )
+                html = art_pattern.sub(r"\1" + sources_block + r"\2", html, count=1)
 
     return html, n
 
@@ -222,12 +285,16 @@ def main() -> int:
     records = load_records(args.ndjson)
     print(f"[info] loaded {len(records)} records from ndjson")
 
+    dataset_map = build_subtask_dataset_map(args.ndjson)
+    print(f"[info] built dataset map for {len(dataset_map)} sub-tasks")
+
     html_in = args.html.read_text(encoding="utf-8")
     html_out, n = inject(
         html_in,
         records=records,
         prefix=args.prefix.rstrip("/"),
         max_frames=args.max_frames,
+        dataset_map=dataset_map,
     )
     output_path.write_text(html_out, encoding="utf-8")
     print(f"[info] injected thumbnails into {n}/{len(records)} cards")
