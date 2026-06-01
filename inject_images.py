@@ -85,6 +85,21 @@ def load_records(ndjson_path: Path) -> dict[int, dict]:
     return out
 
 
+def build_all_datasets(ndjson_path: Path) -> list[str]:
+    """Return sorted list of all unique source_dataset values in the NDJSON."""
+    seen: set[str] = set()
+    with ndjson_path.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            d = json.loads(line)
+            src = d.get("source_dataset", "")
+            if src:
+                seen.add(src)
+    return sorted(seen)
+
+
 def build_subtask_dataset_map(ndjson_path: Path) -> dict[str, list[str]]:
     """Return a mapping of sub_task -> sorted list of all source datasets."""
     result: dict[str, set] = {}
@@ -155,6 +170,17 @@ SOURCES_CSS = """
     border:1px solid rgba(0,0,0,0.15);
     color:var(--ink);white-space:nowrap;
   }
+  .benchmarks-row{
+    display:flex;flex-wrap:wrap;gap:6px 8px;
+    margin-top:16px;padding-top:16px;
+    border-top:1px solid rgba(0,0,0,0.12);
+    align-items:center;
+  }
+  .benchmarks-row strong{
+    font-family:var(--mono);font-size:11px;
+    text-transform:uppercase;letter-spacing:0.06em;
+    color:var(--accent-2);margin-right:4px;flex-shrink:0;
+  }
 """
 
 THUMB_CSS = """
@@ -192,12 +218,25 @@ THUMB_CSS = """
 """
 
 
+def inject_benchmarks_row(html: str, all_datasets: list[str]) -> str:
+    """Inject a benchmarks row into the masthead, before </header>."""
+    if "benchmarks-row" in html:
+        return html
+    chips = "".join(f'<span class="src-chip">{d}</span>' for d in all_datasets)
+    block = (
+        f'\n  <div class="benchmarks-row">'
+        f'<strong>Benchmarks</strong>{chips}</div>\n'
+    )
+    return html.replace("</header>", block + "</header>", 1)
+
+
 def inject(
     html: str,
     records: dict[int, dict],
     prefix: str,
     max_frames: int,
     dataset_map: dict[str, list[str]] | None = None,
+    all_datasets: list[str] | None = None,
 ) -> tuple[str, int]:
     """Return (new_html, n_injected). Inserts a .thumbstrip block right after
     the .st-head <div> in every <article class="stcard ..."> whose body contains
@@ -208,6 +247,10 @@ def inject(
         html = html.replace("</style>", THUMB_CSS + "</style>", 1)
     if dataset_map is not None and "/* === injected: dataset sources === */" not in html:
         html = html.replace("</style>", SOURCES_CSS + "</style>", 1)
+
+    # Inject benchmarks row into masthead
+    if all_datasets:
+        html = inject_benchmarks_row(html, all_datasets)
 
     n = 0
     for sid, rec in records.items():
@@ -288,6 +331,9 @@ def main() -> int:
     dataset_map = build_subtask_dataset_map(args.ndjson)
     print(f"[info] built dataset map for {len(dataset_map)} sub-tasks")
 
+    all_datasets = build_all_datasets(args.ndjson)
+    print(f"[info] found {len(all_datasets)} unique source datasets")
+
     html_in = args.html.read_text(encoding="utf-8")
     html_out, n = inject(
         html_in,
@@ -295,6 +341,7 @@ def main() -> int:
         prefix=args.prefix.rstrip("/"),
         max_frames=args.max_frames,
         dataset_map=dataset_map,
+        all_datasets=all_datasets,
     )
     output_path.write_text(html_out, encoding="utf-8")
     print(f"[info] injected thumbnails into {n}/{len(records)} cards")
