@@ -534,7 +534,8 @@ Question: {question}</div>
           <span class="t task">Mental Animation</span>
           <span class="t src">SITE-Bench / SpatialEval</span>
         </div>
-        <div class="st-q">A grid maze with black walls and white passages, plus a green start cell and a red target. Decide whether a feasible path exists.</div>
+        <div class="st-q">Is the exit (E) to the top right of the starting point (S)?</div>
+        <div class="st-extra">A maze figure with black walls, white passages, a green start cell S, a red exit E, and a blue solution path. Despite the elaborate Maze-Navigation framing in the boilerplate, this particular sub-task variant just asks about the relative cardinal position of E w.r.t. S — i.e. whether the model can locate two coloured cells and compare their grid coordinates. Boilerplate stripped for legibility.</div>
         <ul class="st-opts">
           <li class="gt"><span class="ltr">(A)</span><span class="otxt">Yes</span></li>
           <li><span class="ltr">(B)</span><span class="otxt">No.</span></li>
@@ -584,7 +585,8 @@ Question: {question}</div>
           <span class="t task">Mental Animation</span>
           <span class="t src">Spatial-Visualization</span>
         </div>
-        <div class="st-q">The left image shows a colored cube from a particular viewing angle. The options are nets (unfolded patterns) that fold upward into the cube. Which net matches?</div>
+        <div class="st-q">The left image shows a colored cube from a particular viewing angle. The options are nets (unfolded patterns) of the cube, which are folded upward to form the cube. Which net, when folded, cannot form the cube shown in the left image?</div>
+        <div class="st-extra">Note the negation: the model must pick the net that is INCOMPATIBLE with the target cube — i.e. mentally fold each net and reject the one whose face arrangement violates the observed cube's coloring. Answer A means net A is the impossible one.</div>
         <ul class="st-opts">
           <li class="gt"><span class="ltr">(A)</span><span class="otxt">A</span></li>
           <li><span class="ltr">(B)</span><span class="otxt">B</span></li>
@@ -610,12 +612,13 @@ Question: {question}</div>
           <span class="t task">Mental Animation</span>
           <span class="t src">SpatialEval</span>
         </div>
-        <div class="st-q">A map of named objects is shown. Answer how many objects lie in a queried spatial relation (e.g., to the south of a target).</div>
+        <div class="st-q">How many objects are in the East of Yacht Club?</div>
+        <div class="st-extra">A synthetic 2D map shows several named objects (Yacht Club, etc.) laid out on a grid. The model must (i) locate the anchor object and (ii) count how many other named objects lie strictly in the queried cardinal direction. Here the answer is 0 — nothing sits to the east of Yacht Club. Boilerplate prefix ("The figure represents a map with multiple objects...") stripped for legibility.</div>
         <ul class="st-opts">
           <li><span class="ltr">(A)</span><span class="otxt">5</span></li>
           <li><span class="ltr">(B)</span><span class="otxt">4</span></li>
           <li><span class="ltr">(C)</span><span class="otxt">3</span></li>
-          <li class="gt"><span class="ltr">(D)</span><span class="otxt">0.</span></li>
+          <li class="gt"><span class="ltr">(D)</span><span class="otxt">0</span></li>
         </ul>
         <div class="st-ans"><span class="lbl">answer</span><span class="val">D</span></div>
         <div class="st-path"><span class="lbl">img</span>./SpatialEval/images_png/vqa_test-00000-of-00002_spatialmap.vqa.2410.2_0.png</div>
@@ -674,6 +677,7 @@ Question: {question}</div>
           <span class="t src">SITE-Bench / IconQA</span>
         </div>
         <div class="st-q">How many shapes are green?</div>
+        <div class="st-extra">"With Relation" = count only the objects that satisfy a queried predicate. Here the predicate is a colour attribute (green); other variants ask about shape kind, position, or spatial relations between shapes.</div>
         <ul class="st-opts">
           <li class="gt"><span class="ltr">(A)</span><span class="otxt">5</span></li>
           <li><span class="ltr">(B)</span><span class="otxt">3</span></li>
@@ -1081,7 +1085,7 @@ Question: {question}</div>
           <span class="t task">Camera</span>
           <span class="t src">STI-Bench</span>
         </div>
-        <div class="st-q">Given the initial pose at t=0s (identity), choose the camera's pose (Tx, Ty, Tz and 3×3 rotation r11–r33) over the interval.</div>
+        <div class="st-q">Given the initial pose at t=0s (identity), what is the camera pose at t=22s? Each option is a dict of translation (Tx, Ty, Tz) and a 3×3 rotation matrix (r11–r33).</div>
         <ul class="st-opts">
           <li class="trunc"><span class="ltr">(A)</span><span class="otxt">{Tx:-0.06, Ty:0.37, Tz:0.02, r…}</span></li>
           <li class="gt trunc"><span class="ltr">(B)</span><span class="otxt">{Tx:0.02, Ty:0.36, Tz:-0.04, r…}</span></li>
@@ -1241,6 +1245,7 @@ Question: {question}</div>
           <span class="t src">SITE-Bench / MVBench (CLEVRER)</span>
         </div>
         <div class="st-q">In which direction does the gray sphere move in the video?</div>
+        <div class="st-extra">Naming quirk: the benchmark files this CLEVRER moving-sphere question under sub_task = "Navigation Route" (Temporal Reasoning category), but the question itself is closer to 2D motion direction. The 105 Navigation Route samples mix true route-following queries (SpaCE-10) with these directional-motion ones from MVBench.</div>
         <ul class="st-opts">
           <li class="gt"><span class="ltr">(A)</span><span class="otxt">Down and to the left.</span></li>
           <li><span class="ltr">(B)</span><span class="otxt">Up and to the left.</span></li>
