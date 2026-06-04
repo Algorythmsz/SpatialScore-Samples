@@ -1,3 +1,4 @@
 # Downloaded image archive (not needed after extraction)
 spatialscore_images/SpatialScore_benchmark.zip
 extracted_samples_2/
+*.mp4
